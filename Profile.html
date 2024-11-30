@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Setting</title>
+    <!-- Ikon untuk Browser -->
+    <link rel="icon" type="image/png" sizes="32x32" href="https://files.catbox.moe/art3dw.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://files.catbox.moe/art3dw.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <!-- Halaman Pengaturan (pengaturan.html) -->
+    <div class="container mx-auto p-6">
+        <h2 class="text-3xl font-bold text-center mb-4 text-gray-800">Pengaturan Akun</h2>
+
+        <div class="flex justify-center mb-6">
+            <!-- Preview Profil -->
+            <div class="w-24 h-24 bg-gray-300 rounded-full overflow-hidden">
+                <!-- Preview Gambar Profil -->
+                <img id="profile-img-preview" src="path/to/default-profile.jpg" alt="Profile" class="w-full h-full object-cover" />
+            </div>
+        </div>
+
+        <form id="settings-form" enctype="multipart/form-data">
+            <div class="mb-4">
+                <label for="username" class="block text-gray-600">Nama Pengguna</label>
+                <input type="text" id="username" class="w-full p-2 border rounded" placeholder="Masukkan Nama Pengguna">
+            </div>
+
+            <!-- Preview gambar profil -->
+            <div class="mb-4">
+                <label class="block text-gray-600">Gambar Profil</label>
+                <img id="profile-img-preview-setting" src="default-profile.jpg" class="w-20 h-20 rounded-full border mb-2" alt="Profile Preview">
+                <input type="file" accept="image/*" onchange="previewProfileImage(event)" class="w-full p-2 border rounded">
+            </div>
+
+            <button type="submit" class="bg-green-600 text-white p-2 rounded w-full hover:bg-green-700 transition">Update Profil</button>
+        </form>
+    </div>
+
+    <script>
+    // Fungsi untuk preview gambar profil
+    function previewProfileImage(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Menyimpan gambar ke localStorage
+                localStorage.setItem("profileImg", e.target.result);
+                document.getElementById("profile-img-preview-setting").src = e.target.result;  // Update preview gambar di halaman pengaturan
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Menampilkan data dari localStorage saat halaman pengaturan dimuat
+    window.onload = function() {
+        const username = localStorage.getItem("username");
+        const profileImg = localStorage.getItem("profileImg");
+
+        // Mengisi nilai form dengan data dari localStorage
+        if (username) {
+            document.getElementById("username").value = username;  // Mengisi form dengan nama
+        }
+        if (profileImg) {
+            document.getElementById("profile-img-preview").src = profileImg;  // Menampilkan gambar di halaman pengaturan
+            document.getElementById("profile-img-preview-setting").src = profileImg;  // Update preview gambar pada form
+        }
+    }
+
+        // Menangani submit form untuk update data
+        document.getElementById("settings-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            // Mengambil nilai yang baru diubah
+            const newUsername = document.getElementById("username").value;
+            const newProfileImgSrc = document.getElementById("profile-img-preview-setting").src;
+
+            // Menyimpan data ke localStorage
+            localStorage.setItem("username", newUsername);
+            localStorage.setItem("profileImg", newProfileImgSrc);
+
+            // Redirect ke dashboard setelah perubahan disimpan
+            window.location.href = "index.html";  // Ganti dengan halaman dashboard Anda
+        });
+    </script>
+</body>
+</html>

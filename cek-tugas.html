@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Aktivitas</title>
+
+    <!-- Ikon untuk Browser -->
+    <link rel="icon" type="image/png" sizes="32x32" href="https://files.catbox.moe/art3dw.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://files.catbox.moe/art3dw.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(90deg, #34d399, #3b82f6);
+        }
+        .hover-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="gradient-bg py-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center px-6">
+            <a href="#" class="text-white text-3xl font-bold tracking-wide hover:text-gray-200 transition">Dashboard Admin</a>
+            <div class="space-x-6">
+                <a href="index.html" class="text-white text-lg font-semibold hover:text-gray-200 transition">Dashboard</a>
+                <a href="profile.html" class="text-white text-lg font-semibold hover:text-gray-200 transition">Profil</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Konten Cek Aktivitas -->
+    <div class="flex-grow flex flex-col items-center justify-center px-6">
+        <div class="bg-white shadow-lg rounded-2xl p-10 w-full max-w-xl">
+            <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Cek Aktivitas</h1>
+            <p class="text-gray-600 text-center mb-8">Pilih salah satu aktivitas di bawah untuk melanjutkan.</p>
+
+            <!-- Pilihan Aktivitas -->
+            <div class="space-y-6">
+                <!-- Cek Absensi -->
+                <a href="cek-absensi.html" 
+                   class="block bg-gradient-to-r from-green-400 to-green-500 text-white px-6 py-4 rounded-lg text-center font-semibold hover:bg-green-600 transition hover-card">
+                   <i class="fas fa-calendar-check mr-2"></i>Cek Absensi
+                </a>
+
+                <!-- Upload Tugas via URL -->
+                <a href="upload-tugas-url.html" 
+                   class="block bg-gradient-to-r from-blue-400 to-blue-500 text-white px-6 py-4 rounded-lg text-center font-semibold hover:bg-blue-600 transition hover-card">
+                   <i class="fas fa-link mr-2"></i>Upload Tugas via URL
+                </a>
+
+                <!-- Upload Tugas via File -->
+                <a href="upload-tugas-file.html" 
+                   class="block bg-gradient-to-r from-purple-400 to-purple-500 text-white px-6 py-4 rounded-lg text-center font-semibold hover:bg-purple-600 transition hover-card">
+                   <i class="fas fa-file-upload mr-2"></i>Upload Tugas via File
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="gradient-bg py-4 mt-10">
+        <div class="container mx-auto text-center text-white">
+            &copy; 2024 Dashboard Admin | All Rights Reserved
+        </div>
+    </footer>
+</body>
+</html>

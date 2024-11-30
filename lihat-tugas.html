@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Tugas</title>
+    
+    <!-- Ikon untuk Browser -->
+    <link rel="icon" type="image/png" sizes="32x32" href="https://files.catbox.moe/art3dw.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://files.catbox.moe/art3dw.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-green-500 to-green-700 py-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center px-6">
+            <a href="#" class="text-white text-3xl font-bold tracking-wide hover:text-gray-200 transition">Dashboard Admin</a>
+            <div class="space-x-6">
+                <a href="index.html" class="text-white text-lg font-medium hover:text-gray-200 transition">Dashboard</a>
+                <a href="profile.html" class="text-white text-lg font-medium hover:text-gray-200 transition">Profil</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="bg-gray-100 rounded-lg p-8 w-full mx-auto mt-6">
+        <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Cek Tugas</h1>
+        <p class="text-gray-600 text-lg mb-8 text-center">Halaman ini digunakan untuk memeriksa status tugas yang telah diberikan. Klik pada tugas untuk memulai proses mengisi formulir tugas.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+            <!-- Tugas 1 -->
+            <div class="bg-gray-100 p-6 rounded-xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2 w-full">
+                <h3 class="text-2xl font-semibold text-green-800 mb-2 flex items-center">
+                    <i class="fa-solid fa-book-open mr-2"></i> BAB 1: Indonesia Pra-Islam
+                </h3>
+                <p class="text-gray-700 text-sm mb-4">
+                    Jelaskan kondisi sosial, budaya, dan politik Indonesia sebelum kedatangan Islam.
+                </p>
+                <button onclick="showForm('BAB 1: Indonesia Pra-Islam')" class="inline-flex items-center bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-500 transition">
+                    <i class="fa-solid fa-plus mr-2"></i> Edit Tugas
+                </button>
+            </div>
+
+            <!-- Card untuk Tambah Tugas Baru -->
+            <div class="bg-gray-100 border-dashed border-2 border-gray-300 p-6 rounded-xl flex items-center justify-center hover:bg-gray-200 transition cursor-pointer"
+                 onclick="showForm('Tugas Baru')">
+                <span class="text-gray-500 text-xl">+ Tambah Tugas Baru</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Tugas -->
+    <div id="form-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg transform transition-transform scale-90 hover:scale-100">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Tambah Tugas</h2>
+            <form id="tugas-form" onsubmit="sendToWhatsApp(event)">
+                <!-- Nama Tugas (judul kecil) -->
+                <div class="mb-4">
+                    <label for="tugas-title" class="block text-sm font-medium text-gray-700">Nama Tugas (Judul Kecil)</label>
+                    <input type="text" id="tugas-title" name="tugas-title" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 p-2" required>
+                </div>
+
+                <!-- URL Individu -->
+                <div class="mb-4">
+                    <label for="url-individu" class="block text-sm font-medium text-gray-700">URL Tugas Individu</label>
+                    <input type="url" id="url-individu" name="url-individu" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 p-2" placeholder="https://forms.google.com/..." required>
+                </div>
+
+                <!-- URL Canva -->
+                <div class="mb-4">
+                    <label for="url-canva" class="block text-sm font-medium text-gray-700">URL Tugas Canva</label>
+                    <input type="url" id="url-canva" name="url-canva" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 p-2" placeholder="https://forms.google.com/..." required>
+                </div>
+
+                <!-- URL Kelompok -->
+                <div class="mb-4">
+                    <label for="url-kelompok" class="block text-sm font-medium text-gray-700">URL Tugas Kelompok</label>
+                    <input type="url" id="url-kelompok" name="url-kelompok" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 p-2" placeholder="https://forms.google.com/..." required>
+                </div>
+
+                <!-- Deskripsi Tugas -->
+                <div class="mb-4">
+                    <label for="tugas-desc" class="block text-sm font-medium text-gray-700">Deskripsi Tugas</label>
+                    <textarea id="tugas-desc" name="tugas-desc" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 p-2" rows="3" required></textarea>
+                </div>
+
+                <div class="flex gap-4">
+                    <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-500 transition w-full">
+                        Kirim Tugas
+                    </button>
+                    <button type="button" class="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-400 transition w-full" onclick="closeForm()">
+                        Batal
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Pesan Berhasil -->
+    <div id="success-message" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+            <h2 class="text-2xl font-semibold text-green-800 mb-4">Tugas Berhasil Dikirim!</h2>
+            <button onclick="closeSuccessMessage()" class="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-500 transition">
+                Kembali ke Halaman Cek Tugas
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="gradient-bg py-4 mt-10">
+        <div class="container mx-auto text-center text-white">
+            &copy; 2024 Dashboard Admin | All Rights Reserved
+        </div>
+    </footer>
+    
+    <script>
+        function showForm(title) {
+            // Menampilkan form modal dan mengisi nilai judul tugas
+            document.getElementById('form-modal').classList.remove('hidden');
+            document.getElementById('tugas-title').value = title;
+        }
+
+        function closeForm() {
+            // Menyembunyikan form modal saat dibatalkan
+            document.getElementById('form-modal').classList.add('hidden');
+        }
+
+        function sendToWhatsApp(event) {
+            event.preventDefault();
+
+            // Mengambil data dari form
+            const nomor = '6285717281107';  // Nomor WhatsApp yang digunakan
+            const judulTugas = document.getElementById('tugas-title').value;
+            const urlIndividu = document.getElementById('url-individu').value;
+            const urlCanva = document.getElementById('url-canva').value;
+            const urlKelompok = document.getElementById('url-kelompok').value;
+            const deskripsiTugas = document.getElementById('tugas-desc').value;
+
+            // Menyiapkan pesan untuk dikirim via WhatsApp
+            const pesan = `📚 *Tugas Baru Dikirim* 📝
+
+        *Nama Tugas:* ${judulTugas}
+        *URL Tugas Individu:* ${urlIndividu}
+        *URL Tugas Canva:* ${urlCanva}
+        *URL Tugas Kelompok:* ${urlKelompok}
+
+        *Deskripsi Tugas:* 
+        ${deskripsiTugas}
+
+        🌙 Semoga tugas ini membawa berkah dan manfaat. ✨
+        📱 Kirimkan tugas ini dengan penuh ketulusan. 💖
+
+        Ingat: Mulailah dengan Bismillah dan selesaikan dengan ikhlas. 💫`;
+
+            // Encode pesan agar bisa dikirim via URL
+            const encodedPesan = encodeURIComponent(pesan);
+
+            // Membuka WhatsApp dengan pesan yang sudah di-encode
+            const waLink = `https://wa.me/${nomor}?text=${encodedPesan}`;
+            window.open(waLink, '_blank');
+
+            // Reset form setelah pengiriman
+            document.getElementById('tugas-form').reset();
+            document.getElementById('form-modal').classList.add('hidden');
+            document.getElementById('success-message').classList.remove('hidden');
+        }
+
+        function closeSuccessMessage() {
+            // Menyembunyikan pesan sukses setelah beberapa detik
+            document.getElementById('success-message').classList.add('hidden');
+        }
+
+      
+    </script>
+</body>
+</html>

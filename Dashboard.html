@@ -1,0 +1,331 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin SKI-MTsN 1 Jaksel</title>
+
+    <meta property="og:title" content="Dashboard Admin SKI">
+    <meta property="og:description" content="Ruang Kontrol admin ski untuk tugas tugas siswanya.">
+    <meta property="og:image" content="https://files.catbox.moe/kd2u7j.png">
+    
+    <!-- Memasukkan Moment.js -->
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@2.0.1/build/global/luxon.min.js"></script>
+    <!-- Memasukkan plugin moment-hijri -->
+    <script src="https://cdn.jsdelivr.net/npm/moment-hijri@2.0.0/moment-hijri.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Ikon untuk Browser -->
+    <link rel="icon" type="image/png" sizes="32x32" href="https://files.catbox.moe/art3dw.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://files.catbox.moe/art3dw.png">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri&display=swap');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        body {
+            font-family: 'Lexend', sans-serif;
+        }
+
+        h1 {
+            font-family: 'Amiri', serif;
+        }
+
+        /* Media Query untuk Responsif */
+        @media (max-width: 640px) {
+            .absolute {
+                top: 4rem;
+                right: 2rem;
+            }
+
+            .sm\:hidden {
+                display: block;
+            }
+
+            .sm\:block {
+                display: none;
+            }
+
+            .w-12, .h-12 {
+                width: 40px;
+                height: 40px;
+            }
+
+            /* Profil pada mobile */
+            .profile-info {
+                display: none;
+            }
+
+            .profile-icon {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="fade-in flex flex-col lg:flex-row">
+        <!-- Sidebar -->
+        <aside class="lg:w-64 bg-gradient-to-b from-green-900 to-green-700 text-white min-h-screen">
+            <div class="p-4 text-2xl font-bold text-center border-b border-green-600">
+                <i class="fas fa-mosque"></i> Dashboard Admin SKI
+            </div>
+            <nav class="mt-4">
+                <ul class="space-y-2">
+                    <li><a href="lihat-tugas.html" class="block px-4 py-2 hover:bg-green-600 rounded"><i class="fas fa-book mr-2"></i>Lihat Tugas</a></li>
+                    <li><a href="cek-tugas.html" class="block px-4 py-2 hover:bg-green-600 rounded"><i class="fas fa-check-circle mr-2"></i>Cek Tugas</a></li>
+                    <li><a href="Profile.html" class="block px-4 py-2 hover:bg-green-600 rounded"><i class="fas fa-cogs mr-2"></i>Profile</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6 lg:ml-64 relative">
+            <!-- Profil di Pojok Kanan Atas -->
+            <div class="absolute top-6 right-6 flex items-center space-x-3 sm:space-x-2">
+                <!-- Gambar Profil (tampil hanya di desktop) -->
+                <div class="w-12 h-12 bg-gray-300 rounded-full overflow-hidden sm:block" id="profile-img-preview">
+                    <!-- Gambar Profil (dapat diubah di halaman pengaturan) -->
+                    <img src="path/to/default-profile.jpg" alt="Profile" class="w-full h-full object-cover" id="profile-img" />
+                </div>
+
+                <!-- Ikon Profil (tampil hanya di mobile) -->
+                <div class="profile-icon sm:hidden">
+                    <a href="pengaturan.html">
+                        <div class="w-12 h-12 bg-gray-300 rounded-full overflow-hidden flex justify-center items-center">
+                            <!-- Gambar Profil (ikon profil hanya di mobile) -->
+                            <img src="path/to/default-profile.jpg" alt="Profile" class="w-full h-full object-cover" />
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Info Akun (tampil hanya di desktop) -->
+                <div class="profile-info text-right hidden sm:block">
+                    <!-- Nama Akun yang bisa diklik untuk masuk ke halaman pengaturan -->
+                    <a href="Profile.html" class="font-semibold text-gray-800 hover:text-green-600 transition" id="profile-name-preview">
+                        User Admin
+                    </a>
+                    <p class="text-sm text-gray-600">Admin</p>
+                </div>
+                <!-- Tombol Logout yang memicu modal -->
+                <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-400 transition" onclick="openLogoutModal()">
+                    Logout
+                </button>
+            </div>
+            
+            <!-- Modal Konfirmasi Logout -->
+            <div id="logoutModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+                <div class="bg-white p-8 rounded-xl shadow-2xl text-center max-w-md w-full">
+                    <h2 class="text-3xl font-semibold mb-4 text-gray-800">Apakah Anda yakin ingin logout?</h2>
+                    <p class="text-gray-600 mb-6">Semua data Anda yang belum disimpan akan hilang. Pastikan Anda sudah menyimpan pekerjaan Anda.</p>
+                    <div class="flex justify-center gap-6">
+                        <button class="bg-red-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-red-500 transition duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50" onclick="handleLogout()">
+                            Ya, Logout
+                        </button>
+                        <button class="bg-gray-300 text-gray-800 px-6 py-3 rounded-lg shadow-md hover:bg-gray-200 transition duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50" onclick="closeLogoutModal()">
+                            Tidak, Kembali
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Header -->
+            <header class="mb-6 text-center lg:text-left">
+                <!-- Salam dalam bahasa Arab dengan ukuran yang lebih kecil dan responsif -->
+                <h1 class="text-5xl lg:text-4xl font-amiri text-green-800 mb-4 leading-snug">
+                    السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ
+                </h1>
+
+                <!-- Deskripsi dengan jarak tambahan -->
+                <p class="text-gray-600 text-base lg:text-lg mt-4">
+                    Selamat datang di dashboard Islami Anda!
+                </p>
+            </header>
+
+
+            <!-- Section Statistik -->
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Kartu Statistik Anggota Admin -->
+                <div class="bg-gradient-to-r from-green-400 to-green-600 shadow-md rounded-lg p-4">
+                    <h2 class="text-lg font-bold text-white mb-2"><i class="fas fa-users mr-2"></i>Anggota Admin</h2>
+                    <p class="text-2xl font-bold text-white">2</p>
+                </div>
+
+                <!-- Kartu Statistik Info Tanggal -->
+                <div class="bg-gradient-to-r from-green-400 to-green-600 shadow-md rounded-lg p-4">
+                    <h2 class="text-lg font-bold text-white mb-2"><i class="fas fa-calendar-alt mr-2"></i>Info Tanggal</h2>
+                    <p id="current-date" class="text-white">...</p>
+                </div>
+
+                <!-- Kartu Statistik Jam Saat Ini -->
+                <div class="bg-gradient-to-r from-green-400 to-green-600 shadow-md rounded-lg p-4">
+                    <h2 class="text-lg font-bold text-white mb-2"><i class="fas fa-clock mr-2"></i>Jam Saat Ini</h2>
+                    <p id="current-time" class="text-2xl font-bold text-white">...</p>
+                </div>
+            </section>
+
+
+            <!-- Section Kalender -->
+            <section class="mt-8 w-full max-w-3xl mx-auto">
+                <h2 class="text-xl font-bold text-green-800 mb-4"><i class="fas fa-calendar-day mr-2"></i>Kalender</h2>
+                <div class="bg-white shadow-md rounded-lg p-6">
+                    <p id="gregorian-date" class="text-gray-600 mb-2">Tanggal Gregorian: </p>
+                    <p id="hijri-date" class="text-gray-600">Kalender Hijriah: </p>
+                </div>
+            </section>
+
+            <script>
+                // Mendapatkan elemen untuk menampilkan tanggal
+                const gregorianDateElement = document.getElementById('gregorian-date');
+                const hijriDateElement = document.getElementById('hijri-date');
+
+                // Mendapatkan tanggal Gregorian saat ini
+                const todayGregorian = moment().format('dddd, MMMM Do YYYY');
+                gregorianDateElement.textContent = 'Tanggal Gregorian: ' + todayGregorian;
+
+                // Mengonversi tanggal Gregorian ke Hijriah
+                const todayHijri = moment().format('iDD iMMMM iYYYY'); // Format Hijriah (tanggal/bulan/tahun)
+                hijriDateElement.textContent = 'Kalender Hijriah: ' + todayHijri;
+            </script>
+
+            <!-- Section Kutipan Islami -->
+            <section class="mt-8">
+                <h2 class="text-xl font-bold text-green-800 mb-4"><i class="fas fa-quote-left mr-2"></i>Inspirasi Islami</h2>
+                <div class="bg-gradient-to-r from-green-200 to-green-400 text-white p-6 rounded-lg shadow-md">
+                    <p class="text-lg italic">"Dan tolong-menolonglah kamu dalam kebaikan dan takwa, dan jangan tolong-menolong dalam dosa dan permusuhan." <br><span class="font-bold">- Al-Qur'an (5:2)</span></p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Pesan peringatan -->
+    <div id="warning-message" class="warning-message">
+        Eitsssss, mau copy yaa? hayyuk
+    </div>
+    
+    <style>
+        /* Style untuk modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 400px;
+        }
+
+        .modal button {
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cancel-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .confirm-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        /* Gaya untuk pesan peringatan */
+        .warning-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-size: 18px;
+            border-radius: 10px;
+            z-index: 9999;
+            display: none;
+        }
+    </style>
+    
+
+    <script>
+    // Fungsi untuk membuka modal logout
+    function openLogoutModal() {
+        const logoutModal = document.getElementById('logoutModal');
+        logoutModal.classList.remove('hidden');
+    }
+
+    // Fungsi untuk menutup modal logout
+    function closeLogoutModal() {
+        const logoutModal = document.getElementById('logoutModal');
+        logoutModal.classList.add('hidden');
+    }
+
+    // Fungsi untuk menangani logout
+    function handleLogout() {
+        // Melakukan logout dengan menghapus status login
+        localStorage.removeItem('isLoggedIn');
+        window.location.href = "login.html"; // Arahkan ke halaman login setelah logout
+    }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Element untuk tanggal dan waktu
+            const dateElement = document.getElementById('current-date');
+            const timeElement = document.getElementById('current-time');
+
+            // Fungsi untuk memperbarui tanggal
+            const updateDate = () => {
+                const now = luxon.DateTime.local().setZone('Asia/Jakarta');
+                dateElement.textContent = now.toFormat('cccc, dd MMMM yyyy'); // Contoh: Rabu, 29 November 2024
+            };
+
+            // Fungsi untuk memperbarui waktu
+            const updateTime = () => {
+                const now = luxon.DateTime.local().setZone('Asia/Jakarta');
+                timeElement.textContent = now.toFormat('HH:mm:ss'); // Format waktu: Jam:Menit:Detik
+            };
+
+            // Perbarui tanggal dan waktu
+            updateDate();
+            updateTime();
+
+            // Perbarui waktu setiap detik
+            setInterval(updateTime, 1000);
+        });
+
+    </script>
+
+
+
+    <script src="assets/src/warning.js"></script>
+    <script src="assets/src/fungsi.js"></script>
+</body>
+</html>
