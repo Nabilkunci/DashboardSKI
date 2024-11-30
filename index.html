@@ -52,48 +52,45 @@
         }
     </style>
     <script>
-     function validateLogin(event) {
-    event.preventDefault(); // Prevent form submission
+       function validateLogin(event) {
+            event.preventDefault(); // Prevent form submission
 
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
-    // Daftar akun valid
-    const validAccounts = [
-        { email: "admin@skimtsn1jaksel.id", password: "adminski" },
-        { email: "aku@nabilvp.ac.id", password: "ailsanabil },
-        { email: "subhanadmin@guru.id", password: "guruski" },
-    ];
+           // Validasi email dan password
+const validAccounts = [
+    { email: "admin@skimtsn1jaksel.id", password: "adminski" },
+    { email: "aku@nabilvp.ac.id", password: "ailsanabil" },
+    { email: "subhanadmin@guru.id", password: "guruski" }
+];
 
-    const errorMessage = document.getElementById('error-message'); // Menangani pesan kesalahan
+            const errorMessage = document.getElementById('error-message'); // Menangani pesan kesalahan
 
-    // Cek apakah email dan password cocok dengan salah satu akun valid
-    const isValid = validAccounts.some(account => account.email === email && account.password === password);
+            if (email === validEmail && password === validPassword) {
+                // Jika valid, arahkan ke dashboard
+                window.location.href = "Dashboard.html"; // Ubah ke URL dashboard yang sesuai
+            } else {
+                // Tampilkan pesan kesalahan
+                errorMessage.style.display = "block";
+            }
+        }
 
-    if (isValid) {
-        // Jika valid, arahkan ke dashboard
-        window.location.href = "Dashboard.html"; // Ubah ke URL dashboard yang sesuai
-    } else {
-        // Tampilkan pesan kesalahan
-        errorMessage.style.display = "block";
-    }
-}
+        // Menutup notifikasi
+        function closeNotification() {
+            const logoutMessage = document.getElementById('logoutNotification');
+            logoutMessage.style.display = 'none';
+        }
 
-// Menutup notifikasi
-function closeNotification() {
-    const logoutMessage = document.getElementById('logoutNotification');
-    logoutMessage.style.display = 'none';
-}
-
-// Cek status logout
-window.onload = () => {
-    const logoutNotification = document.getElementById('logoutNotification');
-    if (sessionStorage.getItem('logoutSuccess') === 'true') {
-        // Tampilkan notifikasi logout
-        logoutNotification.style.display = 'block';
-        sessionStorage.removeItem('logoutSuccess');
-    }
-};
+        // Cek status logout
+        window.onload = () => {
+            const logoutNotification = document.getElementById('logoutNotification');
+            if (sessionStorage.getItem('logoutSuccess') === 'true') {
+                // Tampilkan notifikasi logout
+                logoutNotification.style.display = 'block';
+                sessionStorage.removeItem('logoutSuccess');
+            }
+        };
     </script>
 </head>
 <body class="bg-gradient-to-r from-green-200 via-green-100 to-white">
