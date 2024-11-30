@@ -58,13 +58,10 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-           // Validasi email dan password
-const validAccounts = [
-    { email: "admin@skimtsn1jaksel.id", password: "adminski" },
-    { email: "aku@nabilvp.ac.id", password: "ailsanabil" },
-    { email: "subhanadmin@guru.id", password: "guruski" }
-];
-
+    // Validasi email dan password
+            const validEmail = "admin@skimtsn1jaksel.id";
+            const validPassword = "adminski";
+           
             const errorMessage = document.getElementById('error-message'); // Menangani pesan kesalahan
 
             if (email === validEmail && password === validPassword) {
